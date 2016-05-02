@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">News</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- NAVIGATION BAR -->
+    <string name="menu_all_news">Fil d\’actualité</string>
+    <string name="title_magazine">Magazines</string>
+    <string name="menu_le_monde">Le Monde</string>
+    <string name="menu_be_geek">BE GEEK</string>
+    <string name="menu_clubic">Clubic</string>
+    <string name="menu_one_net">01 Net</string>
+    <string name="menu_cnn">CNN</string>
+    <string name="menu_melty">Melty</string>
+    <string name="menu_favorite">Favoris</string>
+
+</resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_all" android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="@string/menu_all_news" />
+    </group>
+
+    <item android:title="@string/title_magazine">
+        <menu>
+            <item android:id="@+id/nav_lemonde" android:icon="@android:drawable/ic_menu_gallery"
+                android:title="@string/menu_le_monde" />
+            <item android:id="@+id/nav_begeek" android:icon="@android:drawable/ic_menu_gallery"
+                android:title="@string/menu_be_geek" />
+            <item android:id="@+id/nav_clubic" android:icon="@android:drawable/ic_menu_gallery"
+                android:title="@string/menu_clubic" />
+            <item android:id="@+id/nav_ont_net" android:icon="@android:drawable/ic_menu_gallery"
+                android:title="@string/menu_one_net" />
+            <item android:id="@+id/nav_cnn" android:icon="@android:drawable/ic_menu_gallery"
+                android:title="@string/menu_cnn" />
+            <item android:id="@+id/nav_melty" android:icon="@android:drawable/ic_menu_gallery"
+                android:title="@string/menu_melty" />
+            <item android:id="@+id/nav_favorite" android:icon="@android:drawable/ic_menu_gallery"
+                android:title="@string/menu_favorite" />
+        </menu>
+    </item>
+
+</menu>
