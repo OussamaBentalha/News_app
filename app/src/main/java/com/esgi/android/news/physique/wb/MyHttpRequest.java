@@ -1,8 +1,6 @@
 package com.esgi.android.news.physique.wb;
 
 import android.os.AsyncTask;
-import android.util.Log;
-
 import java.net.*;
 import java.io.*;
 
@@ -11,9 +9,6 @@ import java.io.*;
  * Created by Sam on 04/05/16.
  */
 public class MyHttpRequest extends AsyncTask<String, String, String>{
-
-    //OkHttpClient client = new OkHttpClient();
-
 
     @Override
     protected String doInBackground(String... params) {
@@ -26,7 +21,6 @@ public class MyHttpRequest extends AsyncTask<String, String, String>{
 
             while ((inputLine = in.readLine()) != null){
                 response += inputLine;
-                //Log.i("INPUT", inputLine);
             }
 
             in.close();

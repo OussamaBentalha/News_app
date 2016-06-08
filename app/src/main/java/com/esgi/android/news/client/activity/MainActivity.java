@@ -15,9 +15,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.esgi.android.news.R;
+import com.esgi.android.news.metier.data.DownloadTask;
+import com.esgi.android.news.metier.enumeration.Newspaper;
+import com.esgi.android.news.metier.model.Item;
+import com.esgi.android.news.metier.utils.JSONBodyParser;
+import com.esgi.android.news.metier.utils.XmlBodyParser;
 import com.esgi.android.news.physique.wb.MyHttpRequest;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,14 +39,24 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyHttpRequest request = new MyHttpRequest();
+                DownloadTask load = new DownloadTask();
+                load.setFluxRSS(Newspaper.LEQUIPE);
+                load.downloadNews();
+                /*MyHttpRequest request = new MyHttpRequest();
                 String response = "";
                 try {
-                    response = request.execute("http://www.lemonde.fr/rss/une.xml").get();
+                    response = request.execute("http://www.eurosport.fr/football/rss.xml").get();
+
+                    XmlBodyParser parser = new XmlBodyParser(response);
+                    List<Item> items = parser.getEurosportItems();
+
+                    //JSONBodyParser jsonParser = new JSONBodyParser(response);
+                    //List<Item> items = jsonParser.getEurosportItems();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Log.i("Le Monde", response);
+                Log.i("Le Monde", response);*/
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }

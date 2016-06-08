@@ -8,10 +8,22 @@ import java.util.Date;
 public class Item {
 
     private String title;
+    private String description_snippet;
     private String description;
     private String urlPicture;
     private Date date;
     private String urlItem;
+
+    public Item(){
+    }
+
+    public Item(String title, String description, String urlPicture, Date date, String urlItem) {
+        this.title = title;
+        this.description = description;
+        this.urlPicture = urlPicture;
+        this.date = date;
+        this.urlItem = urlItem;
+    }
 
     public String getTitle() {
         return title;
