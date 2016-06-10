@@ -8,8 +8,8 @@
 
     <item android:title="@string/title_magazine">
         <menu>
-            <item android:id="@+id/nav_lemonde" android:icon="@android:drawable/ic_menu_gallery"
-                android:title="@string/menu_le_monde" />
+            <item android:id="@+id/nav_eurosport" android:icon="@android:drawable/ic_menu_gallery"
+                android:title="@string/menu_eurosport" />
             <item android:id="@+id/nav_begeek" android:icon="@android:drawable/ic_menu_gallery"
                 android:title="@string/menu_be_geek" />
             <item android:id="@+id/nav_clubic" android:icon="@android:drawable/ic_menu_gallery"

@@ -1,5 +1,7 @@
 package com.esgi.android.news.client.activity;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.esgi.android.news.R;
+import com.esgi.android.news.client.fragment.EurosportFragment;
+import com.esgi.android.news.metier.dao.ItemDAO;
 import com.esgi.android.news.metier.data.DownloadTask;
 import com.esgi.android.news.metier.enumeration.Newspaper;
 import com.esgi.android.news.metier.model.Item;
@@ -39,24 +43,17 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DownloadTask load = new DownloadTask();
+
+                /*DownloadTask load = new DownloadTask();
                 load.setFluxRSS(Newspaper.LEQUIPE);
-                load.downloadNews();
-                /*MyHttpRequest request = new MyHttpRequest();
-                String response = "";
-                try {
-                    response = request.execute("http://www.eurosport.fr/football/rss.xml").get();
+                load.downloadNews();*/
 
-                    XmlBodyParser parser = new XmlBodyParser(response);
-                    List<Item> items = parser.getEurosportItems();
+                Item item = new Item("Titre", "Ici la description", "img.jpg", null, "www.item.com");
+                ItemDAO itemDAO = new ItemDAO(getApplicationContext());
+                itemDAO.getAll(0);
+                itemDAO.add(item);
+                itemDAO.close();
 
-                    //JSONBodyParser jsonParser = new JSONBodyParser(response);
-                    //List<Item> items = jsonParser.getEurosportItems();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                Log.i("Le Monde", response);*/
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -112,11 +109,15 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view Item clicks here.
         int id = item.getItemId();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if (id == R.id.nav_all) {
             // Handle the camera action
-        } else if (id == R.id.nav_lemonde) {
-
+        } else if (id == R.id.nav_eurosport) {
+            EurosportFragment fragment = new EurosportFragment();
+            fragmentTransaction.add(R.id.fragment_container, fragment, "Eurosport");
+            fragmentTransaction.commit();
         } else if (id == R.id.nav_begeek) {
 
         } else if (id == R.id.nav_clubic) {

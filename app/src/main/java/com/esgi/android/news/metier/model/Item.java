@@ -8,7 +8,6 @@ import java.util.Date;
 public class Item {
 
     private String title;
-    private String description_snippet;
     private String description;
     private String urlPicture;
     private Date date;

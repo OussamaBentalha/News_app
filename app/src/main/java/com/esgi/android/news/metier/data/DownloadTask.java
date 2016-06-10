@@ -30,7 +30,6 @@ public class DownloadTask {
         MyHttpRequest request = new MyHttpRequest();
         try {
             response = request.execute(Newspaper.valueOf(fluxRSS)).get();
-            Log.i("LEQUIPE", response);
             XmlBodyParser parser = new XmlBodyParser(response);
             items = parser.parse();
 
