@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.esgi.android.news.metier.dao.ItemDAO;
+
 /**
  * Created by Sam on 09/06/16.
  */
@@ -18,7 +20,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //db.execSQL(TodoDAO.CREATE_TABLE);
+        db.execSQL(ItemDAO.CREATE_TABLE);
     }
 
     @Override

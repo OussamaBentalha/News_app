@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.esgi.android.news.physique.db.DatabaseHandler;
 
+import java.util.List;
+
 /**
  * Created by Sam on 09/06/16.
  */
@@ -33,5 +35,7 @@ public abstract class AbstractDAO <T> {
 
     public abstract void add(T object);
     public abstract T get(int id);
+    public abstract List<T> getAll();
+
 
 }

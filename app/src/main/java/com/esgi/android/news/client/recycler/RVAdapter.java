@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by Sam on 10/06/16.
  */
-public class RVAdapter  extends RecyclerView.Adapter<RVAdapter.ItemViewHolder>{
+public class RVAdapter  extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
 
     Context context;
     List<Item> items;
@@ -39,7 +39,12 @@ public class RVAdapter  extends RecyclerView.Adapter<RVAdapter.ItemViewHolder>{
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         holder.title.setText(items.get(position).getTitle());
         holder.description.setText(items.get(position).getDescription());
-        Picasso.with(context).load(items.get(position).getUrlPicture()).into(holder.imageView);
+        if(items.get(position).getUrlPicture() == null){
+            holder.imageView.setVisibility(View.GONE);
+        } else {
+            Picasso.with(context).load(items.get(position).getUrlPicture()).into(holder.imageView);
+        }
+
     }
 
     @Override
@@ -48,8 +53,7 @@ public class RVAdapter  extends RecyclerView.Adapter<RVAdapter.ItemViewHolder>{
     }
 
 
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
-
+    public static class ItemViewHolder extends RecyclerView.ViewHolder{
         CardView cv;
         TextView title;
         TextView description;
@@ -62,6 +66,6 @@ public class RVAdapter  extends RecyclerView.Adapter<RVAdapter.ItemViewHolder>{
             description = (TextView)itemView.findViewById(R.id.item_description);
             imageView = (ImageView) itemView.findViewById(R.id.item_img);
         }
-    }
 
+    }
 }

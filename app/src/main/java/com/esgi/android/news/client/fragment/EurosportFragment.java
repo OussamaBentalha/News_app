@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EurosportFragment extends Fragment {
+public class EurosportFragment extends Fragment{
 
     private List<Item> items;
     private RecyclerView rv;
@@ -64,8 +64,6 @@ public class EurosportFragment extends Fragment {
         DownloadTask load = new DownloadTask();
         load.setFluxRSS(Newspaper.LEQUIPE);
         items = load.downloadNews();
-        /*items.add(new Item("Euro 2016", "Coup d'envoi se soir", "img.jpg", null, "www.item.com"));
-        items.add(new Item("France - Roumanie", "Coup d'envoi se soir", "img.jpg", null, "www.item.com"));*/
     }
 
     private void initializeAdapter(){
@@ -73,6 +71,4 @@ public class EurosportFragment extends Fragment {
         rv.setAdapter(adapter);
 
     }
-
-
 }

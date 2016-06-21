@@ -8,7 +8,9 @@ import com.esgi.android.news.metier.model.Item;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Sam on 09/06/16.
@@ -75,7 +77,8 @@ public class ItemDAO extends AbstractDAO <Item>{
                 e.printStackTrace();
             }
 
-            item = new Item(//cursor.getInt(0),
+            item = new Item(
+                    //cursor.getInt(0),
                     cursor.getString(1),
                     cursor.getString(2),
                     cursor.getString(3),
@@ -85,7 +88,29 @@ public class ItemDAO extends AbstractDAO <Item>{
         return item;
     }
 
-    public Item getAll(int id) {
+    public List<Item> getAll() {
+        List<Item> items = new ArrayList<>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME;
+        Cursor cursor = getSqliteDb().rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Item item = new Item();
+                item.setTitle(cursor.getString(1));
+                item.setDescription(cursor.getString(2));
+                item.setUrlItem(cursor.getString(3));
+                item.setUrlPicture(cursor.getString(4));
+
+                //TODO Get date
+
+                items.add(item);
+            } while (cursor.moveToNext());
+        }
+        return items;
+    }
+
+    /*public Item getAll(int id) {
         Cursor cursor = getSqliteDb().query(TABLE_NAME,
                 new String[]{KEY_ID, KEY_TITLE, KEY_DESCRIPTION, KEY_URL_IMAGE, KEY_PUB_DATE, KEY_URL_LINK},
                 null,
@@ -114,7 +139,7 @@ public class ItemDAO extends AbstractDAO <Item>{
                     cursor.getString(5));
         }
         return item;
-    }
+    }*/
 
 
 }

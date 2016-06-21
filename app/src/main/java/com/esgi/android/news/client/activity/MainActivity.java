@@ -50,8 +50,10 @@ public class MainActivity extends AppCompatActivity
 
                 Item item = new Item("Titre", "Ici la description", "img.jpg", null, "www.item.com");
                 ItemDAO itemDAO = new ItemDAO(getApplicationContext());
-                itemDAO.getAll(0);
+                itemDAO.open();
+                itemDAO.getAll();
                 itemDAO.add(item);
+                itemDAO.getAll();
                 itemDAO.close();
 
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
