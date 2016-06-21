@@ -55,7 +55,8 @@ public class UserDAO extends AbstractDAO<User> {
         User user = null;
         if (cursor != null) {
             cursor.moveToFirst();
-            user = new User(cursor.getInt(0), cursor.getString(1), cursor.getString(2));
+            user = new User(cursor.getString(1), cursor.getString(2));
+            user.setId(cursor.getInt(0));
         }
         return user;
     }
@@ -69,17 +70,29 @@ public class UserDAO extends AbstractDAO<User> {
 
         if (cursor.moveToFirst()) {
             do {
-                User item = new User();
-                item.setId(cursor.getInt(0));
-                item.setMail(cursor.getString(1));
-                item.setPassword(cursor.getString(2));
+                User user = new User();
+                user.setId(cursor.getInt(0));
+                user.setMail(cursor.getString(1));
+                user.setPassword(cursor.getString(2));
 
-                //TODO Get date
-
-                users.add(item);
+                users.add(user);
             } while (cursor.moveToNext());
         }
         return users;
+    }
+
+    public boolean login(User object) {
+        Cursor cursor = getSqliteDb().query(TABLE_NAME,
+                new String[]{KEY_ID, KEY_MAIL, KEY_PASSWORD},
+                KEY_MAIL + "=? AND " + KEY_PASSWORD + "=?",
+                new String[]{object.getMail(), object.getPassword()},
+                null,
+                null,
+                null,
+                null
+        );
+
+        return cursor.getCount() == 1;
     }
 
 
