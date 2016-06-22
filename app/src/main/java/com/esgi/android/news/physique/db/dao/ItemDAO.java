@@ -1,4 +1,4 @@
-package com.esgi.android.news.metier.dao;
+package com.esgi.android.news.physique.db.dao;
 
 import android.content.ContentValues;
 import android.content.Context;

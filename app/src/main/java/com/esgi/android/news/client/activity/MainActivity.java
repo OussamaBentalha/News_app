@@ -5,7 +5,6 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,18 +17,6 @@ import android.view.MenuItem;
 
 import com.esgi.android.news.R;
 import com.esgi.android.news.client.fragment.EurosportFragment;
-import com.esgi.android.news.metier.dao.ItemDAO;
-import com.esgi.android.news.metier.dao.UserDAO;
-import com.esgi.android.news.metier.data.DownloadTask;
-import com.esgi.android.news.metier.enumeration.Newspaper;
-import com.esgi.android.news.metier.model.Item;
-import com.esgi.android.news.metier.model.User;
-import com.esgi.android.news.metier.utils.JSONBodyParser;
-import com.esgi.android.news.metier.utils.XmlBodyParser;
-import com.esgi.android.news.physique.wb.MyHttpRequest;
-
-import java.io.IOException;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,15 +32,6 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                User user = new User("oth@hotmail.com", "mdp");
-                UserDAO userDAO = new UserDAO(getApplicationContext());
-                userDAO.open();
-                //userDAO.add(user);
-                List<User> users = userDAO.getAll();
-                userDAO.login(user);
-
-                userDAO.close();
 
 
                 /*DownloadTask load = new DownloadTask();

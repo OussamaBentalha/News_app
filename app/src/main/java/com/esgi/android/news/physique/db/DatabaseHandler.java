@@ -4,8 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.esgi.android.news.metier.dao.ItemDAO;
-import com.esgi.android.news.metier.dao.UserDAO;
+import com.esgi.android.news.physique.db.dao.ItemDAO;
+import com.esgi.android.news.physique.db.dao.UserDAO;
 
 /**
  * Created by Sam on 09/06/16.

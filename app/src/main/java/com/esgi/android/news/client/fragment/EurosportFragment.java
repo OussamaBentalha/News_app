@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.esgi.android.news.R;
 import com.esgi.android.news.client.recycler.RVAdapter;
-import com.esgi.android.news.metier.data.DownloadTask;
+import com.esgi.android.news.physique.wb.DownloadTask;
 import com.esgi.android.news.metier.enumeration.Newspaper;
 import com.esgi.android.news.metier.model.Item;
 

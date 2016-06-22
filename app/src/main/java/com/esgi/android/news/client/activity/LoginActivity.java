@@ -34,7 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.esgi.android.news.R;
-import com.esgi.android.news.metier.dao.UserDAO;
+import com.esgi.android.news.physique.db.dao.UserDAO;
+import com.esgi.android.news.metier.utils.App;
 import com.esgi.android.news.metier.model.User;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -335,6 +336,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             UserDAO userDAO = new UserDAO(getApplicationContext());
             userDAO.open();
             success = userDAO.login(user);
+            if(success){
+                user.setId(userDAO.getId(user));
+            }
             userDAO.close();
 
             return success;
@@ -346,6 +350,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                App.setmUserConnected(user);
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             } else {
@@ -385,6 +390,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             userDAO.open();
             userDAO.add(user);
             success = userDAO.login(user);
+            if(success){
+                user.setId(userDAO.getId(user));
+            }
             userDAO.close();
 
             return success;
@@ -396,6 +404,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                App.setmUserConnected(user);
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             } else {

@@ -1,4 +1,4 @@
-package com.esgi.android.news.metier.dao;
+package com.esgi.android.news.physique.db.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.database.Cursor;
 
 import com.esgi.android.news.metier.model.User;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,6 +92,22 @@ public class UserDAO extends AbstractDAO<User> {
         );
 
         return cursor.getCount() == 1;
+    }
+
+    public long getId(User user){
+        Cursor cursor = getSqliteDb().query(TABLE_NAME,
+                new String[]{KEY_ID, KEY_MAIL, KEY_PASSWORD},
+                KEY_MAIL + "=? AND " + KEY_PASSWORD + "=?",
+                new String[]{user.getMail(), user.getPassword()},
+                null,
+                null,
+                null,
+                null
+        );
+        if(cursor.moveToFirst()){
+            return cursor.getLong(0);
+        }
+        return 0;
     }
 
 
