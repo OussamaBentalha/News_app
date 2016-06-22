@@ -1,4 +1,4 @@
-package com.esgi.android.news.metier.data;
+package com.esgi.android.news.physique.wb;
 
 import android.util.Log;
 
