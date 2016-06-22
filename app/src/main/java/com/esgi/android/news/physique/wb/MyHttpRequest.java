@@ -1,6 +1,8 @@
 package com.esgi.android.news.physique.wb;
 
 import android.os.AsyncTask;
+import android.util.Log;
+
 import java.net.*;
 import java.io.*;
 
@@ -25,9 +27,9 @@ public class MyHttpRequest extends AsyncTask<String, String, String>{
 
             in.close();
         } catch (MalformedURLException ex){
-
+            Log.w(getClass().getSimpleName(), ex);
         } catch (IOException ex){
-
+            Log.w(getClass().getSimpleName(), ex);
         }
 
         return  response;

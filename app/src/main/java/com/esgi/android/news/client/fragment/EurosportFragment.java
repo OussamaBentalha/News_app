@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.esgi.android.news.R;
 import com.esgi.android.news.client.recycler.RVAdapter;
 import com.esgi.android.news.physique.wb.DownloadTask;
-import com.esgi.android.news.metier.enumeration.Newspaper;
+import com.esgi.android.news.metier.enumeration.EnumNewspaper;
 import com.esgi.android.news.metier.model.Item;
 
 import java.util.ArrayList;
@@ -27,9 +27,9 @@ public class EurosportFragment extends Fragment{
     private List<Item> items;
     private RecyclerView rv;
     private Context context;
+    private EnumNewspaper mNewspaper;
 
     public EurosportFragment() {
-        // Required empty public constructor
     }
 
 
@@ -43,6 +43,10 @@ public class EurosportFragment extends Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.context = getActivity().getApplicationContext();
+        mNewspaper = (EnumNewspaper) getArguments().get(EnumNewspaper.class.getSimpleName());
+
+        int userId = getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).getInt(getString(R.string.user_id_key), 0);
+
 
         initializeData();
         initializeAdapter();
@@ -62,7 +66,7 @@ public class EurosportFragment extends Fragment{
         items = new ArrayList<>();
 
         DownloadTask load = new DownloadTask();
-        load.setFluxRSS(Newspaper.LEQUIPE);
+        load.setFluxRSS(mNewspaper);
         items = load.downloadNews();
     }
 

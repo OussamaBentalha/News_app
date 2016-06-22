@@ -8,7 +8,7 @@
     <string name="action_settings">Paramètres</string>
 
     <!-- NAVIGATION BAR -->
-    <string name="menu_all_news">Fil d\’actualité</string>
+    <string name="menu_all_news">News</string>
     <string name="title_magazine">Magazines</string>
     <string name="menu_eurosport">Eurosport</string>
     <string name="menu_be_geek">BE GEEK</string>
@@ -17,6 +17,7 @@
     <string name="menu_cnn">CNN</string>
     <string name="menu_melty">Melty</string>
     <string name="menu_favorite">Favoris</string>
+    <string name="menu_deconnexion">Deconnexion</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -36,5 +37,9 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    // KEY
+    <string name="preference_file_key">com.esgi.android.news.preference_key</string>
+    <string name="user_id_key">com.esgi.android.news.preference_key</string>
 
 </resources>

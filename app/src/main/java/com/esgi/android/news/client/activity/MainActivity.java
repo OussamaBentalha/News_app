@@ -2,6 +2,8 @@ package com.esgi.android.news.client.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 
 import com.esgi.android.news.R;
 import com.esgi.android.news.client.fragment.EurosportFragment;
+import com.esgi.android.news.metier.enumeration.EnumNewspaper;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        
+
     }
 
 
@@ -108,6 +111,9 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_eurosport) {
             EurosportFragment fragment = new EurosportFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.EUROSPORT);
+            fragment.setArguments(bundle);
             fragmentTransaction.add(R.id.fragment_container, fragment, "Eurosport");
             fragmentTransaction.commit();
         } else if (id == R.id.nav_begeek) {
@@ -118,8 +124,11 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_cnn) {
 
-        } else if (id == R.id.nav_melty) {
-
+        } else if (id == R.id.nav_deconnexion) {
+            SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).edit();
+            editor.putInt(getString(R.string.user_id_key), 0);
+            editor.commit();
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
