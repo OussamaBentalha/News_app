@@ -111,10 +111,12 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_all) {
             // Handle the camera action
         } else if (id == R.id.nav_eurosport) {
-            bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.EUROSPORT);
+            Intent intent = new Intent(this, ItemListActivity.class);
+            this.startActivity(intent);
+            /*bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.EUROSPORT);
             fragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.EUROSPORT.name());
-            fragmentTransaction.commit();
+            fragmentTransaction.commit();*/
         } else if (id == R.id.nav_lequipe) {
             bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.LEQUIPE);
             fragment.setArguments(bundle);

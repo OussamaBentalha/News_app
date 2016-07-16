@@ -37,5 +37,7 @@
     // KEY
     <string name="preference_file_key">com.esgi.android.news.preference_key</string>
     <string name="user_id_key">com.esgi.android.news.preference_key</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
 
 </resources>
