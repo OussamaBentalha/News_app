@@ -7,6 +7,8 @@ import java.util.Date;
  */
 public class Item {
 
+    private long id;
+    private String magazine;
     private String title;
     private String description;
     private String urlPicture;
@@ -22,6 +24,22 @@ public class Item {
         this.urlPicture = urlPicture;
         this.date = date;
         this.urlItem = urlItem;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getMagazine() {
+        return magazine;
+    }
+
+    public void setMagazine(String magazine) {
+        this.magazine = magazine;
     }
 
     public String getTitle() {

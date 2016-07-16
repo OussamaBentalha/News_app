@@ -1,11 +1,10 @@
 package com.esgi.android.news.physique.wb;
 
-import android.util.Log;
+import android.os.AsyncTask;
 
-import com.esgi.android.news.metier.enumeration.Newspaper;
+import com.esgi.android.news.metier.enumeration.EnumNewspaper;
 import com.esgi.android.news.metier.model.Item;
 import com.esgi.android.news.metier.utils.XmlBodyParser;
-import com.esgi.android.news.physique.wb.MyHttpRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,31 +14,36 @@ import java.util.List;
  */
 public class DownloadTask {
 
-    private Newspaper fluxRSS;
+    private EnumNewspaper fluxRSS;
     private List<Item> items;
 
     public DownloadTask(){
-        fluxRSS = Newspaper.EUROSPORT;
+        fluxRSS = EnumNewspaper.EUROSPORT;
         items = new ArrayList<>();
     }
-
 
     public List<Item> downloadNews(){
 
         String response = "";
         MyHttpRequest request = new MyHttpRequest();
         try {
-            response = request.execute(Newspaper.valueOf(fluxRSS)).get();
+            response = request.download(EnumNewspaper.valueOf(fluxRSS));
             XmlBodyParser parser = new XmlBodyParser(response);
             items = parser.parse();
+
+            for(Item item : items){
+                item.setMagazine(fluxRSS.name());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
         return items;
     }
 
-    public void setFluxRSS(Newspaper fluxRSS) {
+    public void setFluxRSS(EnumNewspaper fluxRSS) {
         this.fluxRSS = fluxRSS;
     }
 

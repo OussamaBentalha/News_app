@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.esgi.android.news.metier.enumeration.EnumNewspaper;
 import com.esgi.android.news.metier.model.Item;
 
 import java.text.ParseException;
@@ -21,6 +22,7 @@ public class ItemDAO extends AbstractDAO <Item>{
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS "
             + TABLE_NAME + ";";
     private static final String KEY_ID = "id";
+    private static final String KEY_MAGAZINE = "magazine";
     private static final String KEY_TITLE = "title";
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_URL_LINK = "url_link";
@@ -30,6 +32,7 @@ public class ItemDAO extends AbstractDAO <Item>{
     public static final String CREATE_TABLE = "CREATE TABLE "
             + TABLE_NAME + " ("
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + KEY_MAGAZINE + " TEXT, "
             + KEY_TITLE + " TEXT, "
             + KEY_DESCRIPTION + " TEXT, "
             + KEY_URL_LINK + " TEXT, "
@@ -43,6 +46,7 @@ public class ItemDAO extends AbstractDAO <Item>{
     @Override
     public void add(Item item) {
         ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_MAGAZINE, item.getMagazine());
         contentValues.put(KEY_TITLE, item.getTitle());
         contentValues.put(KEY_DESCRIPTION, item.getDescription());
         contentValues.put(KEY_URL_LINK, item.getUrlItem());
@@ -58,7 +62,7 @@ public class ItemDAO extends AbstractDAO <Item>{
     @Override
     public Item get(int id) {
         Cursor cursor = getSqliteDb().query(TABLE_NAME,
-                new String[]{KEY_ID, KEY_TITLE, KEY_DESCRIPTION, KEY_URL_IMAGE, KEY_PUB_DATE, KEY_URL_LINK},
+                new String[]{KEY_ID, KEY_MAGAZINE, KEY_TITLE, KEY_DESCRIPTION, KEY_URL_IMAGE, KEY_PUB_DATE, KEY_URL_LINK},
                 KEY_ID + "=?",
                 new String[]{String.valueOf(id)},
                 null,
@@ -71,19 +75,20 @@ public class ItemDAO extends AbstractDAO <Item>{
             cursor.moveToFirst();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date pubDate = null;
-            try {
+            //TODO
+            /*try {
                 pubDate = dateFormat.parse(cursor.getString(4));
             } catch (ParseException e) {
                 e.printStackTrace();
-            }
+            }*/
 
-            item = new Item(
-                    //cursor.getInt(0),
-                    cursor.getString(1),
+            item = new Item(//cursor.getInt(0),
                     cursor.getString(2),
                     cursor.getString(3),
+                    cursor.getString(4),
                     pubDate,
-                    cursor.getString(5));
+                    cursor.getString(6));
+            item.setMagazine(cursor.getString(1));
         }
         return item;
     }
@@ -97,10 +102,12 @@ public class ItemDAO extends AbstractDAO <Item>{
         if (cursor.moveToFirst()) {
             do {
                 Item item = new Item();
-                item.setTitle(cursor.getString(1));
-                item.setDescription(cursor.getString(2));
-                item.setUrlItem(cursor.getString(3));
-                item.setUrlPicture(cursor.getString(4));
+                item.setId(cursor.getLong(0));
+                item.setMagazine(cursor.getString(1));
+                item.setTitle(cursor.getString(2));
+                item.setDescription(cursor.getString(3));
+                item.setUrlItem(cursor.getString(4));
+                item.setUrlPicture(cursor.getString(5));
 
                 //TODO Get date
 
@@ -110,36 +117,41 @@ public class ItemDAO extends AbstractDAO <Item>{
         return items;
     }
 
-    /*public Item getAll(int id) {
+    public List<Item> getAll(EnumNewspaper enumNewspaper) {
+        List<Item> items = new ArrayList<>();
+
+        //String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY_MAGAZINE + "=" + enumNewspaper.name();
+        //Cursor cursor = getSqliteDb().rawQuery(selectQuery, null);
+
         Cursor cursor = getSqliteDb().query(TABLE_NAME,
-                new String[]{KEY_ID, KEY_TITLE, KEY_DESCRIPTION, KEY_URL_IMAGE, KEY_PUB_DATE, KEY_URL_LINK},
-                null,
-                null,
+                new String[]{KEY_ID, KEY_MAGAZINE, KEY_TITLE, KEY_DESCRIPTION, KEY_URL_IMAGE, KEY_PUB_DATE, KEY_URL_LINK},
+                KEY_MAGAZINE + "=?",
+                new String[]{enumNewspaper.name()},
                 null,
                 null,
                 null,
                 null
         );
-        Item item = null;
-        if (cursor != null) {
-            cursor.moveToFirst();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date pubDate = null;
-            try {
-                pubDate = dateFormat.parse(cursor.getString(4));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
 
-            item = new Item(//cursor.getInt(0),
-                    cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getString(3),
-                    pubDate,
-                    cursor.getString(5));
+
+        if (cursor.moveToFirst()) {
+            do {
+                Item item = new Item();
+                item.setId(cursor.getLong(0));
+                item.setMagazine(cursor.getString(1));
+                item.setTitle(cursor.getString(2));
+                item.setDescription(cursor.getString(3));
+                item.setUrlItem(cursor.getString(4));
+                item.setUrlPicture(cursor.getString(5));
+
+                //TODO Get date
+
+                items.add(item);
+            } while (cursor.moveToNext());
         }
-        return item;
-    }*/
+        return items;
+    }
+
 
 
 }

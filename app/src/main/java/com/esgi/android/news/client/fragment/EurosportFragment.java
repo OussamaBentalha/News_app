@@ -2,6 +2,7 @@ package com.esgi.android.news.client.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,8 +13,11 @@ import android.view.ViewGroup;
 
 import com.esgi.android.news.R;
 import com.esgi.android.news.client.recycler.RVAdapter;
+import com.esgi.android.news.metier.service.RSSRequest;
+import com.esgi.android.news.physique.db.dao.ItemDAO;
+import com.esgi.android.news.physique.db.dao.UserDAO;
 import com.esgi.android.news.physique.wb.DownloadTask;
-import com.esgi.android.news.metier.enumeration.Newspaper;
+import com.esgi.android.news.metier.enumeration.EnumNewspaper;
 import com.esgi.android.news.metier.model.Item;
 
 import java.util.ArrayList;
@@ -27,9 +31,9 @@ public class EurosportFragment extends Fragment{
     private List<Item> items;
     private RecyclerView rv;
     private Context context;
+    private EnumNewspaper mNewspaper;
 
     public EurosportFragment() {
-        // Required empty public constructor
     }
 
 
@@ -43,9 +47,14 @@ public class EurosportFragment extends Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.context = getActivity().getApplicationContext();
+        mNewspaper = (EnumNewspaper) getArguments().get(EnumNewspaper.class.getSimpleName());
+
+        int userId = getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).getInt(getString(R.string.user_id_key), 0);
+
 
         initializeData();
         initializeAdapter();
+
     }
 
     @Override
@@ -61,10 +70,13 @@ public class EurosportFragment extends Fragment{
     private void initializeData(){
         items = new ArrayList<>();
 
-        DownloadTask load = new DownloadTask();
-        load.setFluxRSS(Newspaper.LEQUIPE);
-        items = load.downloadNews();
+        ItemDAO itemDAO = new ItemDAO(getActivity());
+        itemDAO.open();
+        items = itemDAO.getAll(mNewspaper);
+        itemDAO.close();
+
     }
+
 
     private void initializeAdapter(){
         RVAdapter adapter = new RVAdapter(context, items);

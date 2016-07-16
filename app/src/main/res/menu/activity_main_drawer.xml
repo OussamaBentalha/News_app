@@ -10,18 +10,12 @@
         <menu>
             <item android:id="@+id/nav_eurosport" android:icon="@android:drawable/ic_menu_gallery"
                 android:title="@string/menu_eurosport" />
-            <item android:id="@+id/nav_begeek" android:icon="@android:drawable/ic_menu_gallery"
-                android:title="@string/menu_be_geek" />
-            <item android:id="@+id/nav_clubic" android:icon="@android:drawable/ic_menu_gallery"
-                android:title="@string/menu_clubic" />
-            <item android:id="@+id/nav_ont_net" android:icon="@android:drawable/ic_menu_gallery"
-                android:title="@string/menu_one_net" />
-            <item android:id="@+id/nav_cnn" android:icon="@android:drawable/ic_menu_gallery"
-                android:title="@string/menu_cnn" />
-            <item android:id="@+id/nav_melty" android:icon="@android:drawable/ic_menu_gallery"
-                android:title="@string/menu_melty" />
+            <item android:id="@+id/nav_lequipe" android:icon="@android:drawable/ic_menu_gallery"
+                android:title="@string/menu_lequipe" />
             <item android:id="@+id/nav_favorite" android:icon="@android:drawable/ic_menu_gallery"
                 android:title="@string/menu_favorite" />
+            <item android:id="@+id/nav_deconnexion" android:icon="@android:drawable/ic_menu_gallery"
+                android:title="@string/menu_deconnexion" />
         </menu>
     </item>
 
