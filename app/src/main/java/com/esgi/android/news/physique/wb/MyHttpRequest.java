@@ -10,14 +10,14 @@ import java.io.*;
 /**
  * Created by Sam on 04/05/16.
  */
-public class MyHttpRequest extends AsyncTask<String, String, String>{
+public class MyHttpRequest {
 
-    @Override
-    protected String doInBackground(String... params) {
+
+    public String download(String urlString) {
         String inputLine = "";
         String response = "";
         try {
-            URL url = new URL(params[0]);
+            URL url = new URL(urlString);
             URLConnection connection = url.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 

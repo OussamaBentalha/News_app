@@ -11,11 +11,7 @@
     <string name="menu_all_news">News</string>
     <string name="title_magazine">Magazines</string>
     <string name="menu_eurosport">Eurosport</string>
-    <string name="menu_be_geek">BE GEEK</string>
-    <string name="menu_clubic">Clubic</string>
-    <string name="menu_one_net">01 Net</string>
-    <string name="menu_cnn">CNN</string>
-    <string name="menu_melty">Melty</string>
+    <string name="menu_lequipe">L\'equipe</string>
     <string name="menu_favorite">Favoris</string>
     <string name="menu_deconnexion">Deconnexion</string>
 

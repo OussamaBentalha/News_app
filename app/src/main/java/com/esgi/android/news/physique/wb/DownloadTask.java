@@ -1,5 +1,7 @@
 package com.esgi.android.news.physique.wb;
 
+import android.os.AsyncTask;
+
 import com.esgi.android.news.metier.enumeration.EnumNewspaper;
 import com.esgi.android.news.metier.model.Item;
 import com.esgi.android.news.metier.utils.XmlBodyParser;
@@ -20,19 +22,24 @@ public class DownloadTask {
         items = new ArrayList<>();
     }
 
-
     public List<Item> downloadNews(){
 
         String response = "";
         MyHttpRequest request = new MyHttpRequest();
         try {
-            response = request.execute(EnumNewspaper.valueOf(fluxRSS)).get();
+            response = request.download(EnumNewspaper.valueOf(fluxRSS));
             XmlBodyParser parser = new XmlBodyParser(response);
             items = parser.parse();
+
+            for(Item item : items){
+                item.setMagazine(fluxRSS.name());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
         return items;
     }
 

@@ -3,6 +3,7 @@ package com.esgi.android.news.client.activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,9 +21,20 @@ import android.view.MenuItem;
 import com.esgi.android.news.R;
 import com.esgi.android.news.client.fragment.EurosportFragment;
 import com.esgi.android.news.metier.enumeration.EnumNewspaper;
+import com.esgi.android.news.metier.model.IRefreshable;
+import com.esgi.android.news.metier.model.Item;
+import com.esgi.android.news.metier.service.RSSRequest;
+import com.esgi.android.news.metier.utils.Refresher;
+import com.esgi.android.news.physique.db.dao.ItemDAO;
+import com.esgi.android.news.physique.wb.DownloadTask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, IRefreshable {
+
+    //private Refresher refreshHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,20 +47,6 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                /*DownloadTask load = new DownloadTask();
-                load.setFluxRSS(Newspaper.LEQUIPE);
-                load.downloadNews();*/
-
-                /*Item item = new Item("Titre", "Ici la description", "img.jpg", null, "www.item.com");
-                ItemDAO itemDAO = new ItemDAO(getApplicationContext());
-                itemDAO.open();
-                itemDAO.getAll();
-                itemDAO.add(item);
-                itemDAO.getAll();
-                itemDAO.close();*/
-
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -107,24 +105,22 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        EurosportFragment fragment = new EurosportFragment();
+        Bundle bundle = new Bundle();
+
         if (id == R.id.nav_all) {
             // Handle the camera action
         } else if (id == R.id.nav_eurosport) {
-            EurosportFragment fragment = new EurosportFragment();
-            Bundle bundle = new Bundle();
             bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.EUROSPORT);
             fragment.setArguments(bundle);
-            fragmentTransaction.add(R.id.fragment_container, fragment, "Eurosport");
+            fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.EUROSPORT.name());
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_begeek) {
-
-        } else if (id == R.id.nav_clubic) {
-
-        } else if (id == R.id.nav_ont_net) {
-
-        } else if (id == R.id.nav_cnn) {
-
-        } else if (id == R.id.nav_deconnexion) {
+        } else if (id == R.id.nav_lequipe) {
+            bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.LEQUIPE);
+            fragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.LEQUIPE.name());
+            fragmentTransaction.commit();
+        }  else if (id == R.id.nav_deconnexion) {
             SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).edit();
             editor.putInt(getString(R.string.user_id_key), 0);
             editor.commit();
@@ -140,6 +136,44 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<Item> items = new ArrayList<>();
+
+                DownloadTask load = new DownloadTask();
+                for(EnumNewspaper enumNewspaper : EnumNewspaper.values()){
+                    load.setFluxRSS(enumNewspaper);
+                    items = load.downloadNews();
+
+                    ItemDAO itemDAO = new ItemDAO(getApplicationContext());
+                    itemDAO.open();
+                    for(Item item : items){
+                        itemDAO.add(item);
+                    }
+
+                    List<Item> itemsRecup = itemDAO.getAll();
+                    itemDAO.close();
+                }
+
+            }
+        }).start();
+        //refreshHolder.startRefresh();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //refreshHolder.stopRefresh();
+    }
+
+    @Override
+    public void refresh() {
+        //refreshHolder.refreshTask = task.execute(map);
+    }
+
+    @Override
+    public void cancelRefresh() {
 
     }
 }
