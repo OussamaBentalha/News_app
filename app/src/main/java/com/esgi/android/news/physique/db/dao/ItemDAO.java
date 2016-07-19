@@ -82,13 +82,13 @@ public class ItemDAO extends AbstractDAO <Item>{
                 e.printStackTrace();
             }*/
 
-            item = new Item(//cursor.getInt(0),
-                    cursor.getString(2),
+            item = new Item(cursor.getString(2),
                     cursor.getString(3),
                     cursor.getString(4),
                     pubDate,
                     cursor.getString(6));
             item.setMagazine(cursor.getString(1));
+            item.setId(cursor.getLong(0));
         }
         return item;
     }
@@ -101,13 +101,13 @@ public class ItemDAO extends AbstractDAO <Item>{
 
         if (cursor.moveToFirst()) {
             do {
-                Item item = new Item();
-                item.setId(cursor.getLong(0));
+                Item item = new Item(cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        null,
+                        cursor.getString(6));
                 item.setMagazine(cursor.getString(1));
-                item.setTitle(cursor.getString(2));
-                item.setDescription(cursor.getString(3));
-                item.setUrlItem(cursor.getString(4));
-                item.setUrlPicture(cursor.getString(5));
+                item.setId(cursor.getLong(0));
 
                 //TODO Get date
 
@@ -120,35 +120,46 @@ public class ItemDAO extends AbstractDAO <Item>{
     public List<Item> getAll(EnumNewspaper enumNewspaper) {
         List<Item> items = new ArrayList<>();
 
-        //String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY_MAGAZINE + "=" + enumNewspaper.name();
-        //Cursor cursor = getSqliteDb().rawQuery(selectQuery, null);
+        Cursor cursor = null;
+        switch (enumNewspaper){
+            case ALL:
+                String selectQuery = "SELECT  * FROM " + TABLE_NAME;
+                cursor = getSqliteDb().rawQuery(selectQuery, null);
+                break;
+            case FAVORITE:
+                break;
 
-        Cursor cursor = getSqliteDb().query(TABLE_NAME,
-                new String[]{KEY_ID, KEY_MAGAZINE, KEY_TITLE, KEY_DESCRIPTION, KEY_URL_IMAGE, KEY_PUB_DATE, KEY_URL_LINK},
-                KEY_MAGAZINE + "=?",
-                new String[]{enumNewspaper.name()},
-                null,
-                null,
-                null,
-                null
-        );
-
-
-        if (cursor.moveToFirst()) {
-            do {
-                Item item = new Item();
-                item.setId(cursor.getLong(0));
-                item.setMagazine(cursor.getString(1));
-                item.setTitle(cursor.getString(2));
-                item.setDescription(cursor.getString(3));
-                item.setUrlItem(cursor.getString(4));
-                item.setUrlPicture(cursor.getString(5));
-
-                //TODO Get date
-
-                items.add(item);
-            } while (cursor.moveToNext());
+            default:
+                cursor= getSqliteDb().query(TABLE_NAME,
+                    new String[]{KEY_ID, KEY_MAGAZINE, KEY_TITLE, KEY_DESCRIPTION, KEY_URL_IMAGE, KEY_PUB_DATE, KEY_URL_LINK},
+                    KEY_MAGAZINE + "=?",
+                    new String[]{enumNewspaper.name()},
+                    null,
+                    null,
+                    null,
+                    null
+            );
+                break;
         }
+
+        if(cursor != null){
+            if (cursor.moveToFirst()) {
+                do {
+                    Item item = new Item(cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            null,
+                            cursor.getString(6));
+                    item.setMagazine(cursor.getString(1));
+                    item.setId(cursor.getLong(0));
+
+                    //TODO Get date & URLPicture
+
+                    items.add(item);
+                } while (cursor.moveToNext());
+            }
+        }
+
         return items;
     }
 

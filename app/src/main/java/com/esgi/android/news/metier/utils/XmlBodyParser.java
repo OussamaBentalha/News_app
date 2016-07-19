@@ -56,7 +56,7 @@ public class XmlBodyParser {
                         break;
                     case XmlPullParser.START_TAG :
                         name = parser.getName();
-                        Log.i("NAME", name);
+                        //Log.i("NAME", name);
                         if(name.equals(ITEM_TAG)){
                             currentItem = new Item();
                         } else if(currentItem != null){

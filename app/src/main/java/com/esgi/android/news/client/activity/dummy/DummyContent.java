@@ -1,5 +1,8 @@
 package com.esgi.android.news.client.activity.dummy;
 
+import com.esgi.android.news.metier.model.Item;
+import com.esgi.android.news.physique.db.dao.ItemDAO;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,29 +19,29 @@ public class DummyContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+    public static List<Item> ITEMS = new ArrayList<Item>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
+    public static Map<Long, Item> ITEM_MAP = new HashMap<Long, Item>();
 
     private static final int COUNT = 25;
 
     static {
-        // Add some sample items.
         for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
+            addItem(createItem(i));
         }
     }
 
-    private static void addItem(DummyItem item) {
+    private static void addItem(Item item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
+        ITEM_MAP.put(item.getId(), item);
     }
 
-    private static DummyItem createDummyItem(int position) {
-        return new DummyItem(String.valueOf(position), "Item " + position, makeDetails(position));
+    private static Item createItem(int position) {
+        //return new DummyItem(String.valueOf(position), "Item " + position, makeDetails(position));
+        return null;
     }
 
     private static String makeDetails(int position) {

@@ -1,14 +1,26 @@
 package com.esgi.android.news.client.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.esgi.android.news.R;
 import com.esgi.android.news.client.activity.dummy.DummyContent;
+import com.esgi.android.news.client.recycler.RVAdapter;
+import com.esgi.android.news.metier.enumeration.EnumNewspaper;
+import com.esgi.android.news.metier.model.Item;
+import com.esgi.android.news.physique.db.dao.ItemDAO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A list fragment representing a list of Items. This fragment
@@ -37,6 +49,11 @@ public class ItemListFragment extends ListFragment {
      * The current activated item position. Only used on tablets.
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
+
+    private List<Item> items;
+    private RecyclerView rv;
+    private Context context;
+    private EnumNewspaper mNewspaper;
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -68,15 +85,23 @@ public class ItemListFragment extends ListFragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_eurosport, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        this.context = getActivity().getApplicationContext();
+        mNewspaper = (EnumNewspaper) getArguments().get(EnumNewspaper.class.getSimpleName());
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+        initializeData();
+        initializeAdapter();
     }
 
     @Override
@@ -88,6 +113,12 @@ public class ItemListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+
+        rv=(RecyclerView)getView().findViewById(R.id.rv);
+
+        LinearLayoutManager llm = new LinearLayoutManager(context);
+        rv.setLayoutManager(llm);
+        rv.setHasFixedSize(true);
     }
 
     @Override
@@ -116,7 +147,7 @@ public class ItemListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected (String.valueOf(items.get(position).getId()));
     }
 
     @Override
@@ -148,5 +179,20 @@ public class ItemListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+    private void initializeData(){
+        items = new ArrayList<>();
+
+        ItemDAO itemDAO = new ItemDAO(getActivity());
+        itemDAO.open();
+        items = itemDAO.getAll(mNewspaper);
+        itemDAO.close();
+    }
+
+
+    private void initializeAdapter(){
+        RVAdapter adapter = new RVAdapter(context, items);
+        rv.setAdapter(adapter);
     }
 }

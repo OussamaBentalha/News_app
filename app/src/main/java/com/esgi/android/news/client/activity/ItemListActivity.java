@@ -12,15 +12,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.MenuItem;
-import android.view.View;
 
 
 import com.esgi.android.news.R;
-import com.esgi.android.news.client.fragment.EurosportFragment;
-import com.esgi.android.news.metier.enumeration.EnumNewspaper;
+import com.esgi.android.news.client.fragment.ListFragment;
 
 /**
  * An activity representing a list of Items. This activity
@@ -55,15 +51,6 @@ public class ItemListActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
@@ -104,9 +91,8 @@ public class ItemListActivity extends AppCompatActivity
             arguments.putString(ItemDetailFragment.ARG_ITEM_ID, id);
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.item_detail_container, fragment)
-                    .commit();
+
+            //getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment).commit();
 
         } else {
             // In single-pane mode, simply start the detail activity
@@ -123,7 +109,7 @@ public class ItemListActivity extends AppCompatActivity
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        EurosportFragment fragment = new EurosportFragment();
+        ListFragment fragment = new ListFragment();
         Bundle bundle = new Bundle();
 
         if (id == R.id.nav_all) {
