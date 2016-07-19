@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IRefreshable {
 
     ListFragment fragment = new ListFragment();
+    public static final String MENU_SELECTED = "menu_selected";
+
     //private Refresher refreshHolder;
 
     @Override
@@ -105,43 +107,12 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view Item clicks here.
-        int id = item.getItemId();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        Bundle bundle = new Bundle();
-        fragment = new ListFragment();
-
-        if (id == R.id.nav_all) {
-            bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.ALL);
-            fragment.setArguments(bundle);
-            fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.ALL.name());
-            fragmentTransaction.commit();
-        } else if (id == R.id.nav_eurosport) {
-            bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.EUROSPORT);
-            fragment.setArguments(bundle);
-            fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.EUROSPORT.name());
-            fragmentTransaction.commit();
-        } else if (id == R.id.nav_lequipe) {
-            bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.LEQUIPE);
-            fragment.setArguments(bundle);
-            fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.LEQUIPE.name());
-            fragmentTransaction.commit();
-        } else if (id == R.id.nav_favorite) {
-            bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.FAVORITE);
-            fragment.setArguments(bundle);
-            fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.FAVORITE.name());
-            fragmentTransaction.commit();
-        } else if (id == R.id.nav_deconnexion) {
-            SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).edit();
-            editor.putInt(getString(R.string.user_id_key), 0);
-            editor.commit();
-            finish();
-        }
+        openFragment(item.getItemId());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -151,8 +122,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-
         loadData();
+        openFragment(getMenuSelected());
         //refreshHolder.startRefresh();
     }
 
@@ -175,8 +146,6 @@ public class MainActivity extends AppCompatActivity
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void OnReceivedItem(Item item){
         if(item != null){
-            //Bundle bundle = new Bundle();
-            //bundle.putString(ItemDetailFragment.ARG_ITEM_ID, String.valueOf(item.getId()));
             Intent intent = new Intent(this, ItemDetailActivity.class);
             intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, String.valueOf(item.getId()));
             this.startActivity(intent);
@@ -207,5 +176,53 @@ public class MainActivity extends AppCompatActivity
 
             }
         }).start();
+    }
+
+    public void setMenuSelected(int idMenu){
+        SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).edit();
+        editor.putInt(MENU_SELECTED, idMenu);
+        editor.commit();
+    }
+
+    public int getMenuSelected(){
+        int idMenu = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).getInt(MENU_SELECTED, R.id.nav_all);
+        return idMenu;
+    }
+
+    public void openFragment(int id){
+        setMenuSelected(id);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        Bundle bundle = new Bundle();
+        fragment = new ListFragment();
+
+        if (id == R.id.nav_eurosport) {
+            bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.EUROSPORT);
+            fragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.EUROSPORT.name());
+            fragmentTransaction.commit();
+        } else if (id == R.id.nav_lequipe) {
+            bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.LEQUIPE);
+            fragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.LEQUIPE.name());
+            fragmentTransaction.commit();
+        } else if (id == R.id.nav_favorite) {
+            bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.FAVORITE);
+            fragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.FAVORITE.name());
+            fragmentTransaction.commit();
+        } else if (id == R.id.nav_deconnexion) {
+            SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).edit();
+            editor.putInt(getString(R.string.user_id_key), 0);
+            editor.commit();
+            finish();
+        } else {
+            bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.ALL);
+            fragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.ALL.name());
+            fragmentTransaction.commit();
+        }
     }
 }

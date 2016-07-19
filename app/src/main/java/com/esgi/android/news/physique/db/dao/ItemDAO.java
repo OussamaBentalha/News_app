@@ -1,9 +1,11 @@
 package com.esgi.android.news.physique.db.dao;
 
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.esgi.android.news.R;
 import com.esgi.android.news.metier.enumeration.EnumNewspaper;
 import com.esgi.android.news.metier.model.Item;
 
@@ -28,6 +30,8 @@ public class ItemDAO extends AbstractDAO <Item>{
     private static final String KEY_URL_LINK = "url_link";
     private static final String KEY_URL_IMAGE = "url_image";
     private static final String KEY_PUB_DATE = "pub_date";
+
+    private int userId = 0;
 
     public static final String CREATE_TABLE = "CREATE TABLE "
             + TABLE_NAME + " ("
@@ -123,10 +127,16 @@ public class ItemDAO extends AbstractDAO <Item>{
         Cursor cursor = null;
         switch (enumNewspaper){
             case ALL:
-                String selectQuery = "SELECT  * FROM " + TABLE_NAME;
+                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY " + KEY_PUB_DATE;
                 cursor = getSqliteDb().rawQuery(selectQuery, null);
                 break;
             case FAVORITE:
+                String favoriteQuery = "SELECT  * FROM " + TABLE_NAME
+                        + " WHERE " + KEY_ID
+                        + " IN ( SELECT " + FavoriteDAO.KEY_ITEM_ID
+                                + " FROM " + FavoriteDAO.TABLE_NAME
+                                + " WHERE " + FavoriteDAO.KEY_USER_ID + " = " + getUserId() + ")";
+                cursor = getSqliteDb().rawQuery(favoriteQuery, null);
                 break;
 
             default:
@@ -152,17 +162,18 @@ public class ItemDAO extends AbstractDAO <Item>{
                             cursor.getString(6));
                     item.setMagazine(cursor.getString(1));
                     item.setId(cursor.getLong(0));
-
-                    //TODO Get date & URLPicture
-
                     items.add(item);
                 } while (cursor.moveToNext());
             }
         }
-
         return items;
     }
 
+    public int getUserId() {
+        return userId;
+    }
 
-
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 }

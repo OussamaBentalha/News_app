@@ -55,7 +55,6 @@ public class ListFragment extends Fragment{
         }
 
         int userId = getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).getInt(getString(R.string.user_id_key), 0);
-
     }
 
     @Override
@@ -81,6 +80,7 @@ public class ListFragment extends Fragment{
         ItemDAO itemDAO = new ItemDAO(getActivity());
         itemDAO.open();
 
+        itemDAO.setUserId(getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).getInt(getString(R.string.user_id_key), 0));
         items = itemDAO.getAll(mNewspaper);
         itemDAO.close();
     }
@@ -97,7 +97,6 @@ public class ListFragment extends Fragment{
                         if(activity instanceof  MainActivity && activity != null){
                             ((MainActivity)activity).OnReceivedItem(item);
                         }
-                        Toast.makeText(context, "ITEM CLICK " + items.get(position).getTitle(), Toast.LENGTH_SHORT).show();
                     }
                 })
         );
