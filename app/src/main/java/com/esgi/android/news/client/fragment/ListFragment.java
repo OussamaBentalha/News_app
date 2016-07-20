@@ -10,10 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.esgi.android.news.R;
-import com.esgi.android.news.client.activity.MainActivity;
+import com.esgi.android.news.client.activity.ItemListActivity;
 import com.esgi.android.news.client.recycler.RVAdapter;
 import com.esgi.android.news.metier.listener.RecyclerItemClickListener;
 import com.esgi.android.news.physique.db.dao.ItemDAO;
@@ -94,8 +93,8 @@ public class ListFragment extends Fragment{
                     @Override
                     public void onItemClick(View view, int position) {
                         Item item = items.get(position);
-                        if(activity instanceof  MainActivity && activity != null){
-                            ((MainActivity)activity).OnReceivedItem(item);
+                        if(activity instanceof ItemListActivity && activity != null){
+                            ((ItemListActivity)activity).OnReceivedItem(item);
                         }
                     }
                 })

@@ -16,7 +16,7 @@
         android:layout_height="wrap_content" android:padding="22dp" android:textIsSelectable="true"
         android:textSize="16dp"
         android:text="Mon titre"
-        tools:context="com.esgi.android.news.client.activity.ItemDetailFragment" />
+        tools:context="com.esgi.android.news.client.fragment.ItemDetailFragment" />
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:id="@+id/item_detail_description"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content" android:padding="10dp" android:textIsSelectable="true"
         android:textSize="14dp"
         android:text="Ma Description"
-        tools:context="com.esgi.android.news.client.activity.ItemDetailFragment" />
+        tools:context="com.esgi.android.news.client.fragment.ItemDetailFragment" />
 
 
 
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
         android:textSize="8dp"
         android:text="Ma date"
-        tools:context="com.esgi.android.news.client.activity.ItemDetailFragment" />
+        tools:context="com.esgi.android.news.client.fragment.ItemDetailFragment" />
 
 
     <LinearLayout
