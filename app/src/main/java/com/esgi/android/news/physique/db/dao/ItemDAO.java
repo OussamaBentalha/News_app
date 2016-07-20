@@ -1,9 +1,11 @@
 package com.esgi.android.news.physique.db.dao;
 
+import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.esgi.android.news.R;
 import com.esgi.android.news.metier.enumeration.EnumNewspaper;
 import com.esgi.android.news.metier.model.Item;
 
@@ -28,6 +30,8 @@ public class ItemDAO extends AbstractDAO <Item>{
     private static final String KEY_URL_LINK = "url_link";
     private static final String KEY_URL_IMAGE = "url_image";
     private static final String KEY_PUB_DATE = "pub_date";
+
+    private int userId = 0;
 
     public static final String CREATE_TABLE = "CREATE TABLE "
             + TABLE_NAME + " ("
@@ -82,13 +86,13 @@ public class ItemDAO extends AbstractDAO <Item>{
                 e.printStackTrace();
             }*/
 
-            item = new Item(//cursor.getInt(0),
-                    cursor.getString(2),
+            item = new Item(cursor.getString(2),
                     cursor.getString(3),
                     cursor.getString(4),
                     pubDate,
                     cursor.getString(6));
             item.setMagazine(cursor.getString(1));
+            item.setId(cursor.getLong(0));
         }
         return item;
     }
@@ -101,13 +105,13 @@ public class ItemDAO extends AbstractDAO <Item>{
 
         if (cursor.moveToFirst()) {
             do {
-                Item item = new Item();
-                item.setId(cursor.getLong(0));
+                Item item = new Item(cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        null,
+                        cursor.getString(6));
                 item.setMagazine(cursor.getString(1));
-                item.setTitle(cursor.getString(2));
-                item.setDescription(cursor.getString(3));
-                item.setUrlItem(cursor.getString(4));
-                item.setUrlPicture(cursor.getString(5));
+                item.setId(cursor.getLong(0));
 
                 //TODO Get date
 
@@ -120,38 +124,56 @@ public class ItemDAO extends AbstractDAO <Item>{
     public List<Item> getAll(EnumNewspaper enumNewspaper) {
         List<Item> items = new ArrayList<>();
 
-        //String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + KEY_MAGAZINE + "=" + enumNewspaper.name();
-        //Cursor cursor = getSqliteDb().rawQuery(selectQuery, null);
+        Cursor cursor = null;
+        switch (enumNewspaper){
+            case ALL:
+                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " ORDER BY " + KEY_PUB_DATE;
+                cursor = getSqliteDb().rawQuery(selectQuery, null);
+                break;
+            case FAVORITE:
+                String favoriteQuery = "SELECT  * FROM " + TABLE_NAME
+                        + " WHERE " + KEY_ID
+                        + " IN ( SELECT " + FavoriteDAO.KEY_ITEM_ID
+                                + " FROM " + FavoriteDAO.TABLE_NAME
+                                + " WHERE " + FavoriteDAO.KEY_USER_ID + " = " + getUserId() + ")";
+                cursor = getSqliteDb().rawQuery(favoriteQuery, null);
+                break;
 
-        Cursor cursor = getSqliteDb().query(TABLE_NAME,
-                new String[]{KEY_ID, KEY_MAGAZINE, KEY_TITLE, KEY_DESCRIPTION, KEY_URL_IMAGE, KEY_PUB_DATE, KEY_URL_LINK},
-                KEY_MAGAZINE + "=?",
-                new String[]{enumNewspaper.name()},
-                null,
-                null,
-                null,
-                null
-        );
+            default:
+                cursor= getSqliteDb().query(TABLE_NAME,
+                    new String[]{KEY_ID, KEY_MAGAZINE, KEY_TITLE, KEY_DESCRIPTION, KEY_URL_IMAGE, KEY_PUB_DATE, KEY_URL_LINK},
+                    KEY_MAGAZINE + "=?",
+                    new String[]{enumNewspaper.name()},
+                    null,
+                    null,
+                    null,
+                    null
+            );
+                break;
+        }
 
-
-        if (cursor.moveToFirst()) {
-            do {
-                Item item = new Item();
-                item.setId(cursor.getLong(0));
-                item.setMagazine(cursor.getString(1));
-                item.setTitle(cursor.getString(2));
-                item.setDescription(cursor.getString(3));
-                item.setUrlItem(cursor.getString(4));
-                item.setUrlPicture(cursor.getString(5));
-
-                //TODO Get date
-
-                items.add(item);
-            } while (cursor.moveToNext());
+        if(cursor != null){
+            if (cursor.moveToFirst()) {
+                do {
+                    Item item = new Item(cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            null,
+                            cursor.getString(6));
+                    item.setMagazine(cursor.getString(1));
+                    item.setId(cursor.getLong(0));
+                    items.add(item);
+                } while (cursor.moveToNext());
+            }
         }
         return items;
     }
 
+    public int getUserId() {
+        return userId;
+    }
 
-
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 }

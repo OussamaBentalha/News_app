@@ -3,6 +3,7 @@ package com.esgi.android.news.metier.utils;
 import android.util.Log;
 import android.util.Xml;
 
+import com.esgi.android.news.metier.enumeration.EnumNewspaper;
 import com.esgi.android.news.metier.model.Item;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -15,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by Sam on 08/06/16.
@@ -56,7 +58,7 @@ public class XmlBodyParser {
                         break;
                     case XmlPullParser.START_TAG :
                         name = parser.getName();
-                        Log.i("NAME", name);
+                        //Log.i("NAME", name);
                         if(name.equals(ITEM_TAG)){
                             currentItem = new Item();
                         } else if(currentItem != null){
@@ -68,10 +70,26 @@ public class XmlBodyParser {
                                     break;
                                 case DESCRIPTION_TAG: currentItem.setDescription(parser.nextText());
                                     break;
-                                case PUBDATE_TAG: SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
-                                    //String daate = parser.nextText();
-                                    //Date date = formatter.parse(daate);
-                                    //currentItem.setDate(date);
+                                case PUBDATE_TAG:
+                                    String myDate = parser.nextText();
+                                    SimpleDateFormat formatter;
+                                    try {
+                                        if(myDate.contains("GMT")) {
+                                            formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss");
+                                            Date date = formatter.parse(myDate);
+                                            currentItem.setDate(date);
+                                        }
+                                        else {
+                                            //Parse LEQUIPE Date ne fonctionne pas
+                                            //formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ssZ");
+                                        }
+
+                                        //Date date = formatter.parse(myDate);
+                                        //currentItem.setDate(date);
+                                    }
+                                    catch(Exception e){
+                                        Log.i("XMLBodyParser", e.getMessage());
+                                    }
                                     break;
                                 case ENCLOSURE_TAG: String urlImg = parser.getAttributeValue(0);
                                     currentItem.setUrlPicture(urlImg);

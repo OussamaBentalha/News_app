@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * Created by Sam on 10/06/16.
  */
-public class RVAdapter  extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
+public class RVAdapter  extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> implements RecyclerView.OnItemTouchListener {
 
     Context context;
     List<Item> items;
@@ -47,9 +48,25 @@ public class RVAdapter  extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
 
     }
 
+
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+    }
+
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
     }
 
 

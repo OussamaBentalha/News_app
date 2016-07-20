@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.esgi.android.news.physique.db.dao.FavoriteDAO;
 import com.esgi.android.news.physique.db.dao.ItemDAO;
 import com.esgi.android.news.physique.db.dao.UserDAO;
 
@@ -23,6 +24,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(UserDAO.CREATE_TABLE);
         db.execSQL(ItemDAO.CREATE_TABLE);
+        db.execSQL(FavoriteDAO.CREATE_TABLE);
     }
 
     @Override

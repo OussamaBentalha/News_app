@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    tools:context=".ItemDetailFragment">
+
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/item_detail_title"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:padding="22dp" android:textIsSelectable="true"
+        android:textSize="16dp"
+        android:text="Mon titre"
+        tools:context="com.esgi.android.news.client.activity.ItemDetailFragment" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/item_detail_description"
+        style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:padding="10dp" android:textIsSelectable="true"
+        android:textSize="14dp"
+        android:text="Ma Description"
+        tools:context="com.esgi.android.news.client.activity.ItemDetailFragment" />
+
+
+
+    <ImageView
+        android:id="@+id/item_detail_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:src="#AAA"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/item_detail_date"
+        style="?android:attr/textAppearanceLarge" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:padding="16dp" android:textIsSelectable="true"
+        android:textSize="8dp"
+        android:text="Ma date"
+        tools:context="com.esgi.android.news.client.activity.ItemDetailFragment" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="right">
+
+        <android.support.design.widget.FloatingActionButton android:id="@+id/item_detail_open_web"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
+            android:src="@drawable/ic_http_white_24dp" />
+
+        <android.support.design.widget.FloatingActionButton android:id="@+id/item_detail_share"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
+            android:src="@android:drawable/ic_menu_send"
+            android:actionProviderClass=
+                "android.widget.ShareActionProvider"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+
+

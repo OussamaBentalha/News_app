@@ -12,7 +12,7 @@
     <string name="title_magazine">Magazines</string>
     <string name="menu_eurosport">Eurosport</string>
     <string name="menu_lequipe">L\'equipe</string>
-    <string name="menu_favorite">Favoris</string>
+    <string name="menu_favorite">Favorite</string>
     <string name="menu_deconnexion">Deconnexion</string>
 
 <!-- TODO: Remove or change this placeholder text -->
@@ -33,9 +33,15 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="item_share_action">Share via</string>
 
     // KEY
     <string name="preference_file_key">com.esgi.android.news.preference_key</string>
-    <string name="user_id_key">com.esgi.android.news.preference_key</string>
+    <string name="user_id_key">com.esgi.android.news.preference_user_id</string>
+
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="title_activity_item_webview">Webview</string>
+
 
 </resources>

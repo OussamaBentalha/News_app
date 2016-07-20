@@ -5,6 +5,8 @@ package com.esgi.android.news.metier.enumeration;
  */
 public enum EnumNewspaper {
 
+    ALL,
+    FAVORITE,
     LEQUIPE,
     EUROSPORT;
 
