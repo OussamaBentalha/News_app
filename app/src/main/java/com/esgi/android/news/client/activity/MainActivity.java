@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IRefreshable {
 
     ListFragment fragment = new ListFragment();
+    Toolbar toolbar;
     public static final String MENU_SELECTED = "menu_selected";
 
     //private Refresher refreshHolder;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -199,16 +200,19 @@ public class MainActivity extends AppCompatActivity
         fragment = new ListFragment();
 
         if (id == R.id.nav_eurosport) {
+            toolbar.setTitle(EnumNewspaper.EUROSPORT.name());
             bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.EUROSPORT);
             fragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.EUROSPORT.name());
             fragmentTransaction.commit();
         } else if (id == R.id.nav_lequipe) {
+            toolbar.setTitle(EnumNewspaper.LEQUIPE.name());
             bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.LEQUIPE);
             fragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.LEQUIPE.name());
             fragmentTransaction.commit();
         } else if (id == R.id.nav_favorite) {
+            toolbar.setTitle(EnumNewspaper.FAVORITE.name());
             bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.FAVORITE);
             fragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.FAVORITE.name());
@@ -220,6 +224,7 @@ public class MainActivity extends AppCompatActivity
             setMenuSelected(0);
             finish();
         } else {
+            toolbar.setTitle(getResources().getString(R.string.app_name));
             bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.ALL);
             fragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.fragment_container, fragment, EnumNewspaper.ALL.name());

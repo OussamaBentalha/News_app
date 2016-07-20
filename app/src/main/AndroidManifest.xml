@@ -43,6 +43,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.esgi.android.news.client.activity.ItemListActivity" />
         </activity>
+        <activity
+            android:name=".client.activity.ItemWebview"
+            android:label="@string/title_activity_item_webview"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>

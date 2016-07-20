@@ -33,6 +33,8 @@ public class ItemDetailActivity extends AppCompatActivity {
     private boolean FAVORITE_TAG = false;
     private FloatingActionButton fab;
 
+    public static final String ARG_ITEM_URL = "itemUrl";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,4 +109,11 @@ public class ItemDetailActivity extends AppCompatActivity {
             fab.setImageResource(R.drawable.ic_thumb_up_white_24dp);
         }
     }
+
+    public void launchItemWebview(String itemUrl){
+        Intent intent = new Intent(this, ItemWebview.class);
+        intent.putExtra(ARG_ITEM_URL, itemUrl);
+        startActivity(intent);
+    }
+
 }

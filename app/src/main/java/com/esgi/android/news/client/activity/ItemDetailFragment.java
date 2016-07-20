@@ -87,6 +87,9 @@ public class ItemDetailFragment extends Fragment {
         httpFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(getActivity() instanceof ItemDetailActivity){
+                    ((ItemDetailActivity)getActivity()).launchItemWebview(mItem.getUrlItem());
+                }
                 Snackbar.make(view, "HTTP", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
