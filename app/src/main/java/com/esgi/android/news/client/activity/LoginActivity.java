@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //User already connected
         int userId = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).getInt(getString(R.string.user_id_key), 0);
         if(userId != 0){
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ItemListActivity.class);
             startActivity(intent);
         }
 
@@ -364,7 +364,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 editor.putInt(getString(R.string.user_id_key), (int) user.getId());
                 editor.commit();
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ItemListActivity.class);
                 startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -422,7 +422,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 editor.putInt(getString(R.string.user_id_key), (int) user.getId());
                 editor.commit();
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ItemListActivity.class);
                 startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

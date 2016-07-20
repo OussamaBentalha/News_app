@@ -40,10 +40,11 @@ public class RVAdapter  extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> i
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         holder.title.setText(items.get(position).getTitle());
         holder.description.setText(items.get(position).getDescription());
-        if(items.get(position).getUrlPicture() == null){
-            holder.imageView.setVisibility(View.GONE);
+        if(items.get(position).getUrlPicture() != null){
+            String url = items.get(position).getUrlPicture();
+            Picasso.with(context).load(url).into(holder.imageView);
         } else {
-            Picasso.with(context).load(items.get(position).getUrlPicture()).into(holder.imageView);
+            holder.imageView.setVisibility(View.GONE);
         }
 
     }

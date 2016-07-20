@@ -6,25 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.esgi.android.news.R;
-import com.esgi.android.news.metier.enumeration.EnumNewspaper;
+import com.esgi.android.news.client.fragment.ItemDetailFragment;
 import com.esgi.android.news.metier.model.Favorite;
 import com.esgi.android.news.physique.db.dao.FavoriteDAO;
 
-/**
- * An activity representing a single Item detail screen. This
- * activity is only used on handset devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
- * in a {@link ItemListActivity}.
- * <p/>
- * This activity is mostly just a 'shell' activity containing nothing
- * more than a {@link ItemDetailFragment}.
- */
 public class ItemDetailActivity extends AppCompatActivity {
 
     public int userIntId;
@@ -87,7 +77,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
+            NavUtils.navigateUpTo(this, new Intent(this, ItemListActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

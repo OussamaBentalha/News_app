@@ -1,4 +1,4 @@
-package com.esgi.android.news.client.activity;
+package com.esgi.android.news.client.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,15 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.esgi.android.news.R;
+import com.esgi.android.news.client.activity.ItemDetailActivity;
 import com.esgi.android.news.metier.model.Item;
 import com.esgi.android.news.physique.db.dao.ItemDAO;
 import com.squareup.picasso.Picasso;
 
 /**
  * A fragment representing a single Item detail screen.
- * This fragment is either contained in a {@link ItemListActivity}
- * in two-pane mode (on tablets) or a {@link ItemDetailActivity}
- * on handsets.
  */
 public class ItemDetailFragment extends Fragment {
     /**
