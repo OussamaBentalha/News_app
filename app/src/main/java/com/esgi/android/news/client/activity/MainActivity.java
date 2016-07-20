@@ -217,6 +217,7 @@ public class MainActivity extends AppCompatActivity
             SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE).edit();
             editor.putInt(getString(R.string.user_id_key), 0);
             editor.commit();
+            setMenuSelected(0);
             finish();
         } else {
             bundle.putSerializable(EnumNewspaper.class.getSimpleName(), EnumNewspaper.ALL);
