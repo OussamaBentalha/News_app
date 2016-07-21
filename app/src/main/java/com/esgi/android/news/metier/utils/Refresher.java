@@ -3,7 +3,7 @@ package com.esgi.android.news.metier.utils;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.esgi.android.news.metier.listener.Rafraichissement;
+import com.esgi.android.news.metier.listener.AutoRefreshTask;
 import com.esgi.android.news.metier.model.IRefreshable;
 
 /**
@@ -19,7 +19,7 @@ public class Refresher implements IRefreshable {
     /**
      * La tâche utilisée pour le rafraichissement automatique.
      */
-    public Rafraichissement ra;
+    public AutoRefreshTask ra;
 
     /**
      * Si l'activité est sensée se rafraichir toute seule toutes les x secondes, ou si un rafraichissement uniquement manuel est autorisé.
@@ -62,7 +62,7 @@ public class Refresher implements IRefreshable {
         if (backgroundRefresh) {
             if (ra == null || ra.getState() == Thread.State.TERMINATED) {
                 int ref = getRefreshInterval();
-                ra = new Rafraichissement(this, ref);
+                ra = new AutoRefreshTask(this, ref);
             }
             try {
                 ra.start();

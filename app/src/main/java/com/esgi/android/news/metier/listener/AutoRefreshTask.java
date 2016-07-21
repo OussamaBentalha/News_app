@@ -12,7 +12,7 @@ import java.lang.ref.WeakReference;
 /**
  * Created by Sam on 22/06/16.
  */
-public class Rafraichissement extends Thread implements Runnable {
+public class AutoRefreshTask extends Thread implements Runnable {
 
     private int timeRefresh;
     private final static int REFRESH = 1;
@@ -21,7 +21,7 @@ public class Rafraichissement extends Thread implements Runnable {
     private final IRefreshable refreshable;
     private RefreshHandler handler;
 
-    public Rafraichissement(IRefreshable activity, int refreshPeriod) {
+    public AutoRefreshTask(IRefreshable activity, int refreshPeriod) {
         super("Refresh-" + activity.getClass().getSimpleName());
         this.refreshable = activity;
         this.timeRefresh = refreshPeriod;
