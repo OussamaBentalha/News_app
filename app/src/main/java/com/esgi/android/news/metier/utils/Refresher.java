@@ -40,7 +40,7 @@ public class Refresher implements IRefreshable {
      * @return l'interval de rafraichissement, en ms.
      */
     public int getRefreshInterval() {
-        return 30000;
+        return 5000;
     }
 
     /**

@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -23,7 +24,9 @@ import com.esgi.android.news.client.fragment.ListFragment;
 import com.esgi.android.news.metier.enumeration.EnumNewspaper;
 import com.esgi.android.news.metier.model.IRefreshable;
 import com.esgi.android.news.metier.model.Item;
+import com.esgi.android.news.metier.utils.Refresher;
 import com.esgi.android.news.physique.db.dao.ItemDAO;
+import com.esgi.android.news.physique.wb.DownloadData;
 import com.esgi.android.news.physique.wb.DownloadTask;
 
 import java.util.ArrayList;
@@ -36,7 +39,7 @@ public class ItemListActivity extends AppCompatActivity
     Toolbar toolbar;
     public static final String MENU_SELECTED = "menu_selected";
 
-    //private Refresher refreshHolder;
+    private Refresher refreshHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,7 @@ public class ItemListActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        refreshHolder = new Refresher(this);
     }
 
 
@@ -111,23 +115,23 @@ public class ItemListActivity extends AppCompatActivity
         super.onResume();
         loadData();
         openFragment(getMenuSelected());
-        //refreshHolder.startRefresh();
+        refreshHolder.startRefresh();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        //refreshHolder.stopRefresh();
+        refreshHolder.stopRefresh();
     }
 
     @Override
     public void refresh() {
-        //refreshHolder.refreshTask = task.execute(map);
+        Log.i(getClass().getSimpleName(), "REFRESH()");
+        new DownloadTask(getApplicationContext()).execute();
     }
 
     @Override
     public void cancelRefresh() {
-
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -146,7 +150,7 @@ public class ItemListActivity extends AppCompatActivity
             public void run() {
                 List<Item> items = new ArrayList<>();
 
-                DownloadTask load = new DownloadTask();
+                DownloadData load = new DownloadData();
                 for(EnumNewspaper enumNewspaper : EnumNewspaper.values()){
                     load.setFluxRSS(enumNewspaper);
                     items = load.downloadNews();

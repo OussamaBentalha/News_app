@@ -1,51 +1,45 @@
 package com.esgi.android.news.physique.wb;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.esgi.android.news.metier.enumeration.EnumNewspaper;
 import com.esgi.android.news.metier.model.Item;
-import com.esgi.android.news.metier.utils.XmlBodyParser;
+import com.esgi.android.news.physique.db.dao.ItemDAO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Sam on 08/06/16.
+ * Created by Sam on 21/07/16.
  */
-public class DownloadTask {
+public class DownloadTask extends AsyncTask<Void, Integer, Void> {
 
-    private EnumNewspaper fluxRSS;
-    private List<Item> items;
+    private Context context;
 
-    public DownloadTask(){
-        fluxRSS = EnumNewspaper.EUROSPORT;
-        items = new ArrayList<>();
+    public DownloadTask(Context context) {
+        this.context = context;
     }
 
-    public List<Item> downloadNews(){
+    @Override
+    protected Void doInBackground(Void... params) {
+        if(context != null){
+            List<Item> items = new ArrayList<>();
 
-        String response = "";
-        MyHttpRequest request = new MyHttpRequest();
-        try {
-            response = request.download(EnumNewspaper.valueOf(fluxRSS));
-            XmlBodyParser parser = new XmlBodyParser(response);
-            items = parser.parse();
+            DownloadData load = new DownloadData();
+            for(EnumNewspaper enumNewspaper : EnumNewspaper.values()){
+                load.setFluxRSS(enumNewspaper);
+                items = load.downloadNews();
 
-            for(Item item : items){
-                item.setMagazine(fluxRSS.name());
+                ItemDAO itemDAO = new ItemDAO(context);
+                itemDAO.open();
+                for(Item item : items){
+                    itemDAO.add(item);
+                }
+
+                itemDAO.close();
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
-
-        return items;
+        return null;
     }
-
-    public void setFluxRSS(EnumNewspaper fluxRSS) {
-        this.fluxRSS = fluxRSS;
-    }
-
-
 }

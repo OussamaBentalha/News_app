@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import com.esgi.android.news.metier.enumeration.EnumNewspaper;
 import com.esgi.android.news.metier.model.Item;
 import com.esgi.android.news.physique.db.dao.ItemDAO;
-import com.esgi.android.news.physique.wb.DownloadTask;
+import com.esgi.android.news.physique.wb.DownloadData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class RSSRequest extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         List<Item> items = new ArrayList<>();
 
-        DownloadTask load = new DownloadTask();
+        DownloadData load = new DownloadData();
         for(EnumNewspaper enumNewspaper : EnumNewspaper.values()){
             load.setFluxRSS(enumNewspaper);
             items = load.downloadNews();
